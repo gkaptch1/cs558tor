@@ -1,0 +1,14 @@
+os: linux
+dist: bionic
+language: python
+python:
+  - "3.6"
+  - "3.7"
+  - "3.8"
+  - "3.9"
+install:
+  - pip install tox-travis coveralls
+script:
+  - tox -v
+after_success:
+  - cd torc && coveralls
