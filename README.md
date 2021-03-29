@@ -11,6 +11,7 @@ In this assignment you are going to get an in-depth view on Tor. You are going t
 ### Tor
  - [Overview of Hidden Services](https://2019.www.torproject.org/docs/onion-services)
  - [Tor Protocol Specification](https://gitweb.torproject.org/torspec.git/plain/tor-spec.txt)
+ - [Tor Rendezvous Specification](https://gitweb.torproject.org/torspec.git/plain/rend-spec-v2.txt)
  - [TorPy Documentation](https://pypi.org/project/torpy)
 ### Docker
  - [Docker Documentation](https://docs.docker.com/get-started/overview/)
@@ -71,7 +72,7 @@ List and explain 2 benefits of using three nodes in a Tor circuit rather than si
 ### Setting up a Tor Circuit (40 pts)
 Recall from class that Tor creates circuits in a telescoping fashion: first the client creates a connection with the guard node using the CREATE cell, then proxies through the guard node to connect to the middle node with an EXTEND cell, and then finally proxies through both to connect to the exit node with an EXTEND cell. From there, it can initiate a TCP connection on the far side of the circuit using the BEGIN cell. Finally, the client can start sending traffic to the server using the RELAY cell.
 
-In this task you are going to be implementing the client side logic to get this all working. We have provided you skeleton code in telescoping_circuit.py. There a bunch of helper functions that will help you abstractions away some of the trickier parts (eg. the detail of the actual crypto).
+In this task you are going to be implementing the client side logic to get this all working. We have provided you skeleton code in `telescoping_circuit.py`. There a bunch of helper functions that will help you abstractions away some of the trickier parts (eg. the detail of the actual crypto).
 
 Concretely, you are expected to make your code do the following things:
 
@@ -106,18 +107,85 @@ python telescoping_circuit.py --mode specific --guard 127.0.0.1:7001 --middle 12
 
 For _specific_ mode, we will ensure that we are passing IP addresses that are valid nodes in the virtual network.
 
-### Setting up a Hidden Service (40 pts)
-We are currently only releasing the first half of this assignment. We will edit this file to include instructions for part 2 at the beginning of next week.
+### Connecting to a Hidden Service (40 pts)
+Now that you can make circuits, we are going to use them to build connections to Tor hidden services in our virtual Tor network.  First, take the web server program we give you in a docker.  This is going to be the hidden service server, and when you run `./start.sh` it will start accepting requests send to its address: `http://uc6i7lzer7puykkv.onion`.  The rest of the network is set up the same as the previous part.  Note there is an added `-hs` in `chutney-hs` in the command for the network with a hidden service.
+
+```shell
+docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it wyatthowe/chutney-hs bash
+```
+
+To connect to our hidden service, you will need to do 4 things:
+
+- Take an already build 3-hop circuit (like you made in part 1) and connect a TCP stream
+- Find out which nodes are designated as introduction points for the hidden service
+- Implement the TAP handshake and use it at an introduction point to agree upon a rendezvous point
+- Have the client connect the rendezvous point through the extended circuit and request a web page from the hidden service
+
+We have set up all the hidden service code, so it will be ready to go.  All you have to do is fill in the appropriate functions in the ```hidden_service.py``` file.  Note that all the code for this part is separate from the code from the part above — you don't need to re-use any code, and you may even begin part 2 before finishing part 1 if you'd like.  You should fill in code for
+
+```python
+def get(hs_name, port, path, live)
+
+def extend_to_hidden(circuit, hidden_service)
+
+def set_up_intro_point(base_circuit, introduction_point_router, rendezvous_point_router, hidden_service, rendezvous_cookie)
+```
+
+<!--These functions will be called automatically when you run the ```hidden_service.py ``` — don't worry about how the code gets called (its called from within the TorClient provided by Torpy).  Theres a comment in the code:
+
+```python
+#
+#  --- Part I functionalities ---
+#  (You can ignore from here on.)
+#
+```
+
+Everything after that deals with running the client and it will automatically call the code you provide in the two functions for which you need to add code.  As it notes, you can basically ignore all that stuff.-->
+
+
+In the third function, you are interacting with the introduction point.  Follow the comments in the code and look at the spec (both the full and rendezvous versions) to understand that process.<!--  This first function is a helper for the second to actually connect to the hidden service.-->
+
+You can test you code by directing the client to uc6i7lzer7puykkv.onion:
+
+```shell
+hidden_service.py --mode random --url http://uc6i7lzer7puykkv.onion
+```
 
 ### Point your code at live Tor (10 pts)
-We are currently only releasing the first half of this assignment. We will edit this file to include instructions for part 2 at the beginning of next week.
+
+All the code that you have written in this assignment is real Tor code -- it will work with real Tor!  To celebrate that, you will actually be pointing your code at live Tor.  To do you, you can either generate a specific circuit through live Tor, or just get the consensus from live Tor.
+
+For this second option, just query `http://127.0.0.1:7001/tor/status-vote/current/consensus/` in `curl` or any web browser.  IPs with ports 7000-7002 on our virtual network are the directory authorities who form the official consensus.  You can find a copy of the real consensus at `http://128.31.0.34:9131/tor/status-vote/current/consensus` which is the Tor authority managed by MIT.  TorPy handles this all automatically.  Take a quick look, but don't worry about handling this document in your code.
+
+To go live, either pass the `--live` flag to `hidden_service.py`, or pass the parameter `use_local_directories=True` to the `TorClient` constructor in `telescoping_circuit.py`.
+
+First, use ```telescoping_circuit.py``` to connect to example.com through the real network.  To get an idea of the overhead, please time how long it takes to get a response (see the ```time``` utility).  Please send us in a zip your logs for the 10 runs and the timing information you collected.  Please include the log for the i^th run in a file called ```log_i.log``` (eg. ```log_7.log```) and the timing information in a file ```time_i.txt``` (eg. ```time_7.txt```)
+
+Either modify `hidden_service.py`, or run it repeatedly to generate 10 or more circuits to `example.com` on the live Tor network.  Be sure to save your log.
+
+Finally, use your code in `hidden_service.py` to request `http://expyuzz4wqqyqhjn.onion` 10 times each, and save the response html and header content into a file.  Also, as before, time the interaction to see how long it took.  Please send us in a zip (1) your logs, (2) the html response you get back each time, and (3) the timing information you collected.  Please include the log for the i^th run in a file called ```log_i.log``` (eg. ```log_7.log```), the timing information in a file ```time_i.txt``` (eg. ```time_7.txt```), and the response you get as ```response_i.html``` (eg. ```response_7.html```)
+
 
 ## Deliverables, Checklist
-### Task 1
- - PDF file with answers to the review questions.
-### Task 2
- - Python script `telescoping_circuit.py`
- - Brief writeup explaining your code (no more than 200 words)
 
-### Tasks 3 and 4
-Coming Soon
+### Task 1
+
+* PDF file with anwsers to the review questions.
+
+### Task 2
+
+* Python script ```telescoping_circuit.py```
+
+* Breif writeup explaining your code (no more than 200 words)
+
+### Tasks 3
+
+* Python script ```hidden_service.py```
+
+* Brief writeup explaining your code (no more than 200 words)
+
+### Tasks 4
+
+* Zip drive containing your files for connecting to `example.com`
+
+* Zip drive containing your files for connecting to `http://expyuzz4wqqyqhjn.onion`
