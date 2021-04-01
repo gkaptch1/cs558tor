@@ -4,7 +4,7 @@ Due: April 7, 2021 @ 9PM Eastern
 Team Size: 2 Students Per Team
 
 ## Assignment Overview
-In this assignment you are going to get an in-depth view on Tor. You are going to be writing the client logic to build circuits and implement the required logic to build hidden services. Because engineering
+In this assignment you are going to get an in-depth view on Tor. You are going to be writing the client logic to build circuits and implement the required logic to build hidden services.
 
 ## Resources
 
