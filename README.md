@@ -116,7 +116,7 @@ docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it wyatthowe/chutney-h
 
 To connect to our hidden service, you will need to do 4 things:
 
-- Take an already build 3-hop circuit (like you made in part 1) and connect a TCP stream
+- Take an already built 3-hop circuit (like you made in part 1) and connect a TCP stream
 - Find out which nodes are designated as introduction points for the hidden service
 - Implement the TAP handshake and use it at an introduction point to agree upon a rendezvous point
 - Have the client connect the rendezvous point through the extended circuit and request a web page from the hidden service
@@ -176,7 +176,7 @@ Finally, use your code in `hidden_service.py` to request `http://expyuzz4wqqyqhj
 
 * Python script ```telescoping_circuit.py```
 
-* Breif writeup explaining your code (no more than 200 words)
+* Brief writeup explaining your code (no more than 200 words)
 
 ### Tasks 3
 
