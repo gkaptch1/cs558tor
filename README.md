@@ -161,9 +161,9 @@ To go live, either pass the `--live` flag to `hidden_service.py`, or pass the pa
 
 First, use ```telescoping_circuit.py``` to connect to example.com through the real network.  To get an idea of the overhead, please time how long it takes to get a response (see the ```time``` utility).  Please send us in a zip your logs for the 10 runs and the timing information you collected.  Please include the log for the i^th run in a file called ```log_i.log``` (eg. ```log_7.log```) and the timing information in a file ```time_i.txt``` (eg. ```time_7.txt```)
 
-Either modify `hidden_service.py`, or run it repeatedly to generate 10 or more circuits to `example.com` on the live Tor network.  Be sure to save your log.
+Either modify `telescoping_circuit.py`, or run it repeatedly to generate 10 or more circuits to `example.com` on the live Tor network.  Be sure to save your log.
 
-Finally, use your code in `hidden_service.py` to request `http://expyuzz4wqqyqhjn.onion` 10 times each, and save the response html and header content into a file.  Also, as before, time the interaction to see how long it took.  Please send us in a zip (1) your logs, (2) the html response you get back each time, and (3) the timing information you collected.  Please include the log for the i^th run in a file called ```log_i.log``` (eg. ```log_7.log```), the timing information in a file ```time_i.txt``` (eg. ```time_7.txt```), and the response you get as ```response_i.html``` (eg. ```response_7.html```)
+Finally, use your code in `hidden_service.py` to request `http://expyuzz4wqqyqhjn.onion` 10 times, and save the response html and header content into a file.  Also, as before, time the interaction to see how long it took.  Please send us in a zip (1) your logs, (2) the html response you get back each time, and (3) the timing information you collected.  Please include the log for the i^th run in a file called ```log_i.log``` (eg. ```log_7.log```), the timing information in a file ```time_i.txt``` (eg. ```time_7.txt```), and the response you get as ```response_i.html``` (eg. ```response_7.html```)
 
 
 ## Deliverables, Checklist
