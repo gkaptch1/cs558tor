@@ -163,9 +163,9 @@ class DirectoryList:
 
             # Hard-code this one just for speed, becasue the docker is always running the same configuration
             nodes_list = [
-                "\"test000relay orport=5000 v3ident=F76CB79A2D20FF3F5B8004C5F9CFD44E45FAE65A 127.0.0.1:7000 5DE4 2B9E FE40 67AC 49C6 6153 6913 D223 847B 4F5B\"",
-                "\"test001relay orport=5001 v3ident=6888B7C7AF3B28B84BD9941D628D8A60BDB71561 127.0.0.1:7001 E38E BE07 57A6 C36B BCC7 45F7 9901 987F A176 AE6B\"",
-                "\"test002relay orport=5002 v3ident=008FDAE64EC6EB0D64E83BD0AB790342CC9C557E 127.0.0.1:7002 E58A 9B7F D9C6 B66C 0C07 B145 EF20 4F5B C1F1 2A08\""
+                "\"test000relay orport=5000 v3ident=C92481D43322381F90A827F2833D69411F9168F0 127.0.0.1:7000 1CEC EB93 DA75 E9C2 4161 2F03 581F 7141 77D0 A6C2\"",
+                "\"test001relay orport=5001 v3ident=73F1D08E6383AF6558AE53CF3064919FDD8843F6 127.0.0.1:7001 A47B 0D44 AB9E F4C1 4FBC C4AE C6A7 02C0 BAFC C751\"",
+                "\"test002relay orport=5002 v3ident=8886B74D80D6466326CF44897CBE556E410E8D09 127.0.0.1:7002 BEC8 4056 35E9 D35F F781 0F62 E450 B8CB 5098 5654\""
             ]
         else:
             data = AUTHORITY_DIRS.replace('  ', ' ').replace('\n', '').replace('\" \"', '')

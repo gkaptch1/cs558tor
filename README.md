@@ -1,5 +1,5 @@
 # Tor Assignment
-Due: April 9, 2021 @ 9PM Eastern
+Due: April 25th, 2022 @ 9PM Eastern
 
 Team Size: 2 Students Per Team
 
@@ -24,10 +24,12 @@ to get all the starter code. Then, run a copy of the virtual Tor network with th
 
 ```shell
 # Make sure Docker is running and ...
-docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it wyatthowe/chutney bash
+docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it gkaptchuk/cs558tor22 bash
 ```
 
 It will download an Alpine Linux Docker image with Tor Chutney and Nyx installed on it, and then instantiate it in interactive mode with the onion routing ports mapped to your host network.  Chutney is already configured with 3 directory authorities, 3 guard and middle nodes, and 3 exit nodes.  This test net is quite small, so be sure not to accidentally route through the same node twice, or you will fail a handshake.
+
+Be aware, that on macOS, you may find that one of these ports is already in use.  You can free up this port by turning off AirPlay Receiver in your system preferences
 
 The client code you are going to be running is in Python.
 I suggest you set up a [virtual environment](https://docs.python.org/3/tutorial/venv.html) in order to test everything.
@@ -108,10 +110,10 @@ python telescoping_circuit.py --mode specific --guard 127.0.0.1:7001 --middle 12
 For _specific_ mode, we will ensure that we are passing IP addresses that are valid nodes in the virtual network.
 
 ### Connecting to a Hidden Service (40 pts)
-Now that you can make circuits, we are going to use them to build connections to Tor hidden services in our virtual Tor network.  First, take the web server program we give you in a docker.  This is going to be the hidden service server, and when you run `./start.sh` it will start accepting requests send to its address: `http://uc6i7lzer7puykkv.onion`.  The rest of the network is set up the same as the previous part.  Note there is an added `-hs` in `chutney-hs` in the command for the network with a hidden service.
+Now that you can make circuits, we are going to use them to build connections to Tor hidden services in our virtual Tor network.  First, take the web server program we give you in a docker.  This is going to be the hidden service server, and when you run `./start.sh` it will start accepting requests send to its address: `http://erppk6uy6eaxjbnx.onion`.  The rest of the network is set up the same as the previous part.  Note there is an added `-hs` in `cs558tor22-hs` in the command for the network with a hidden service.
 
 ```shell
-docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it wyatthowe/chutney-hs bash
+docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it gkaptchuk/cs558tor22-hs bash
 ```
 
 To connect to our hidden service, you will need to do 4 things:
@@ -145,10 +147,10 @@ Everything after that deals with running the client and it will automatically ca
 
 In the third function, you are interacting with the introduction point.  Follow the comments in the code and look at the spec (both the full and rendezvous versions) to understand that process.<!--  This first function is a helper for the second to actually connect to the hidden service.-->
 
-You can test you code by directing the client to uc6i7lzer7puykkv.onion:
+You can test you code by directing the client to erppk6uy6eaxjbnx.onion:
 
 ```shell
-hidden_service.py --mode random --url http://uc6i7lzer7puykkv.onion
+python hidden_service.py --mode random --url http://erppk6uy6eaxjbnx.onion --outfile filename.txt
 ```
 
 ### Point your code at live Tor (10 pts)

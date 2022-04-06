@@ -163,9 +163,9 @@ class DirectoryList:
 
             # Hard-code this one just for speed, becasue the docker is always running the same configuration
             nodes_list = [
-                "\"test000a orport=5000 v3ident=B10694D467B0F14BD4DF5A1A9231990452C0E725 127.0.0.1:7000 B106 94D4 67B0 F14B D4DF 5A1A 9231 9904 52C0 E725\"",
-                "\"test001a orport=5001 v3ident=C58DF28850BC39FE03CDE5E239C683DEFD937FB0 127.0.0.1:7001 C58D F288 50BC 39FE 03CD E5E2 39C6 83DE FD93 7FB0\"",
-                "\"test002a orport=5002 v3ident=34DA7F506DE64725F4177D388DACA21DF5860D77 127.0.0.1:7002 34DA 7F50 6DE6 4725 F417 7D38 8DAC A21D F586 0D77\""
+                "\"test000a orport=5000 v3ident=4F435E34B0EBAD4D556428DB5C6BC0ACB2EEF1C6 127.0.0.1:7000 1829 55BC 91E7 81D2 CA10 7029 8990 0618 427A 336F\"",
+                "\"test001a orport=5001 v3ident=AA6CD306D0DFA62F6920DC73714D995E38140D80 127.0.0.1:7001 FDC2 564B 61F1 6AF5 4E22 05E8 AA28 571F 7095 3061\"",
+                "\"test002a orport=5002 v3ident=BCD320231FC00A26F7B70BEBDF7A4F110D99C178 127.0.0.1:7002 C7BE E780 5584 EB07 0D1A C754 FD79 8ED8 D23E 4B7C\""
             ]
             logger.info('Getting virtual Tor network')
         else:
