@@ -122,9 +122,9 @@ def extend(circuit, node_router):
     key_agreement = node_extended.key_agreement  # See section 5.1.4 for full specification
 
     node_ID = key_agreement._fingerprint_bytes  # Server node's fingerprint
-    private_x = key_agreement._x._raw_private_bytes()  # Client's private key, x
-    public_X = key_agreement._X._raw_public_bytes()  # Client's public key, X
-    public_B = key_agreement._B._raw_public_bytes()  # Node's public "ntor onion" key, B
+    private_x = key_agreement._x.private_bytes_raw()  # Client's private key, x
+    public_X = key_agreement._X.public_bytes_raw()  # Client's public key, X
+    public_B = key_agreement._B.public_bytes_raw()  # Node's public "ntor onion" key, B
 
     # concatenation ID | B | X
     onion_skin =  #your-code-here#
