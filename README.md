@@ -1,5 +1,5 @@
 # Tor Assignment
-Due: April 25th, 2022 @ 9PM Eastern
+Due: May 3th, 2023 @ 9PM Eastern
 
 Team Size: 2 Students Per Team
 
@@ -24,7 +24,7 @@ to get all the starter code. Then, run a copy of the virtual Tor network with th
 
 ```shell
 # Make sure Docker is running and ...
-docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it gkaptchuk/cs558tor22 bash
+docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it gkaptchuk/cs558tor23 bash
 ```
 
 It will download an Alpine Linux Docker image with Tor Chutney and Nyx installed on it, and then instantiate it in interactive mode with the onion routing ports mapped to your host network.  Chutney is already configured with 3 directory authorities, 3 guard and middle nodes, and 3 exit nodes.  This test net is quite small, so be sure not to accidentally route through the same node twice, or you will fail a handshake.
@@ -113,7 +113,7 @@ For _specific_ mode, we will ensure that we are passing IP addresses that are va
 Now that you can make circuits, we are going to use them to build connections to Tor hidden services in our virtual Tor network.  First, take the web server program we give you in a docker.  This is going to be the hidden service server, and when you run `./start.sh` it will start accepting requests send to its address: `http://erppk6uy6eaxjbnx.onion`.  The rest of the network is set up the same as the previous part.  Note there is an added `-hs` in `cs558tor22-hs` in the command for the network with a hidden service.
 
 ```shell
-docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it gkaptchuk/cs558tor22-hs bash
+docker run -p 5000-5005:5000-5005 -p 7000-7005:7000-7005 -it gkaptchuk/cs558tor23-hs bash
 ```
 
 To connect to our hidden service, you will need to do 4 things:
@@ -155,7 +155,7 @@ python hidden_service.py --mode random --url http://erppk6uy6eaxjbnx.onion --out
 
 ### Point your code at live Tor (10 pts)
 
-All the code that you have written in this assignment is real Tor code -- it will work with real Tor!  To celebrate that, you will actually be pointing your code at live Tor.  To do you, you can either generate a specific circuit through live Tor, or just get the consensus from live Tor.
+All the code that you have written in this assignment is real Tor code -- it will work with real Tor!  To celebrate that, you will actually be pointing your code at live Tor.  To do so, you can either generate a specific circuit through live Tor, or just get the consensus from live Tor.
 
 For this second option, just query `http://127.0.0.1:7001/tor/status-vote/current/consensus/` in `curl` or any web browser.  IPs with ports 7000-7002 on our virtual network are the directory authorities who form the official consensus.  You can find a copy of the real consensus at `http://128.31.0.34:9131/tor/status-vote/current/consensus` which is the Tor authority managed by MIT.  TorPy handles this all automatically.  Take a quick look, but don't worry about handling this document in your code.
 
